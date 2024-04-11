@@ -1,8 +1,46 @@
 // This one will be a little tricky. So check out this overview first: https://www.youtube.com/watch?v=sJ-c3BA-Ypo
 
 // 1. Create a variable to store the singleton instance of the bank branch. "bankBranchInstance"
+let bankBranchInstance = null;
+let currentYear = new Date().getFullYear();
 
 // 2. Define a class called `BankBranch` for managing branch information.
+class BankBranch {
+    constructor(branchInfo, branchYear) {
+      if (!bankBranchInstance) {
+        this.branchInfo = branchInfo;
+        this.branchYear = branchYear;
+        bankBranchInstance = this;
+      }
+      return bankBranchInstance;
+    }
+  
+    getBranchInfo() {
+      return this.branchInfo + "," + this.branchYear;
+    }
+  
+    
+    getBranchAge() {
+      return `This branch is ${currentYear - this.branchYear} years old`;
+    }
+  }
+
+  // Usage
+const branchA = new BankBranch("First Avenue Branch", 2008);
+console.log(branchA.getBranchInfo()); // Outputs: First Avenue Branch, 2024
+console.log(branchA.getBranchAge()); // Outputs: This branch is 16 years old
+
+const branchB = new BankBranch("Second Avenue Branch", 2013);
+console.log(branchB.getBranchInfo()); // Still outputs: First Avenue Branch, 2024
+console.log(branchA.getBranchAge()); // Still outputs: This branch is 16 years old
+
+const branchC = new BankBranch("King Street Branch", 1982);
+console.log(branchB.getBranchInfo());  // Still outputs: First Avenue Branch, 2024
+console.log(branchA.getBranchAge()); // Still outputs: This branch is 16 years old
+
+console.log(branchA === branchB); // true, both variables point to the same instance
+console.log(branchA === branchC); // true, both variables point to the same instance
+
 
 // 3. In the `BankBranch` class:
 //    - Create a constructor that takes `branchInfo` as a parameter.
